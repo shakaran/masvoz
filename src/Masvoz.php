@@ -11,6 +11,8 @@ class Masvoz {
 
     protected $password;
 
+    protected $params;
+
     public function __construct($config = array())
     {
         if (isset($config['accountId'])) $this->accountId = $config['accountId'];
@@ -20,18 +22,59 @@ class Masvoz {
         if (isset($config['password'])) $this->password = $config['password'];
     }
 
-    public function callATCList($startDate, $endDate)
+    public function callATCList($startDate = null, $endDate = null)
     {
-        $url = "https://manager.masvoz.es/api/rs/call/detail/ATC?accountId=" . $this->accountId .
-            "&startDate=" . urlencode($startDate->format("Y-m-d H:i:s")) .
-            "&endDate=" . urlencode($endDate->format("Y-m-d H:i:s"));
+        $url = "https://manager.masvoz.es/api/rs/call/detail/ATC?accountId=" . $this->accountId;
+
+        if(! is_null($startDate)) {
+            $url .= "&startDate=" . urlencode($startDate);
+        }
+        if(! is_null($endDate)) {
+            $url .= "&endDate=" . urlencode($endDate);
+        }
 
         return $this->callMasVoz($url);
     }
 
-    public function queueStatisticsInfo()
+    public function callDestList($startDate = null, $endDate = null)
+    {
+        $url = "https://manager.masvoz.es/api/rs/call/detail/DEST?accountId=" . $this->accountId;
+
+        if(! is_null($startDate)) {
+            $url .= "&startDate=" . urlencode($startDate);
+        }
+        if(! is_null($endDate)) {
+            $url .= "&endDate=" . urlencode($endDate);
+        }
+
+        return $this->callMasVoz($url);
+    }
+
+    public function callATCStats($startDate, $endDate, $groupMode)
+    {
+        $url = "https://manager.masvoz.es/api/rs/call/detail/DEST?accountId=" . $this->accountId .
+            "&startDate=" . urlencode($startDate) .
+            "&endDate=" . urlencode($endDate) .
+            "&groupMode=" . $groupMode;
+
+        return $this->callMasVoz($url);
+    }
+
+    public function queueStatisticsInfo($startDate = null, $endDate = null, $nodeId = null)
     {
         $url = "https://manager.masvoz.es/api/rs/queue/stats?accountId=" . $this->accountId;
+
+        if(! is_null($startDate)) {
+            $url .= "&startDate=" . $startDate;
+        }
+
+        if(! is_null($endDate)) {
+            $url .= "&endDate=" . $endDate;
+        }
+
+        if(! is_null($nodeId)) {
+            $url .= "&nodeId=" . $nodeId;
+        }
 
         return $this->callMasVoz($url);
 
@@ -44,6 +87,8 @@ class Masvoz {
         if(! is_null($nodeId)) {
             $url .= "/" . $nodeId;
         }
+
+        $url .= "?accountId=" . $this->accountId;
 
         return $this->callMasVoz($url);
     }
