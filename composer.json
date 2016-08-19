@@ -25,7 +25,7 @@
             "role": "Developer"
         }
     ],
-    "version": "0.0.1",
+    "version": "0.0.2",
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.5.0",
