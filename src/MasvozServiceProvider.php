@@ -1,4 +1,6 @@
-<?php namespace Holaluz\Masvoz;
+<?php
+
+namespace Holaluz\Masvoz;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -18,9 +20,9 @@ class MasvozServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes(array(
-            __DIR__.'/config/config.php' => config_path('masvoz.php')
-        ));
+        $this->publishes([
+            __DIR__ . '/config/config.php' => config_path('masvoz.php'),
+        ]);
     }
 
     /**
@@ -30,7 +32,7 @@ class MasvozServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $configPath = __DIR__.'/config/config.php';
+        $configPath = __DIR__ . '/config/config.php';
         $this->mergeConfigFrom($configPath, 'masvoz');
 
         $this->app->singleton('masvoz', function($app) {
@@ -45,6 +47,6 @@ class MasvozServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array('masvoz');
+        return ['masvoz'];
     }
 }

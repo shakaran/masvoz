@@ -1,7 +1,7 @@
 <?php
 
-return array(
+return [
     'accountId' => '0',
     'user' => null,
-    'password' => null
-);
+    'password' => null,
+];
